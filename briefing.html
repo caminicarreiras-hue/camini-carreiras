@@ -686,7 +686,7 @@ html, body {
 // CONFIGURAÇÃO
 // Depois que publicar o backend na Vercel, cole a URL aqui.
 // Exemplo: const API_BASE_URL = "https://camini-briefing.vercel.app";
-const API_BASE_URL = "https://camini-carreiras.vercel.app";
+const API_BASE_URL = window.location.origin;
 
 // Year
 document.getElementById('year').textContent = new Date().getFullYear();
