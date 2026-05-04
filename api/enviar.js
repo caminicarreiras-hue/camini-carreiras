@@ -117,6 +117,7 @@ async function uploadPdf(buffer, nome) {
 
 export default async function handler(req, res) {
   try {
+    const baseUrl = (process.env.ALLOWED_ORIGIN || `https://${req.headers.host}`).replace(/\/$/, "");
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Método não permitido" });
     }
@@ -199,17 +200,17 @@ export default async function handler(req, res) {
 
           ${curriculo_path ? `
           <p><strong>Currículo:</strong><br>
-          <a href="${process.env.ALLOWED_ORIGIN}/api/arquivo?path=${encodeURIComponent(curriculo_path)}">Abrir</a></p>
+          <a href="${baseUrl}/api/arquivo?path=${encodeURIComponent(curriculo_path)}">Abrir</a></p>
           ` : ""}
 
           ${carta_path ? `
           <p><strong>Carta:</strong><br>
-          <a href="${process.env.ALLOWED_ORIGIN}/api/arquivo?path=${encodeURIComponent(carta_path)}">Abrir</a></p>
+          <a href="${baseUrl}/api/arquivo?path=${encodeURIComponent(carta_path)}">Abrir</a></p>
           ` : ""}
 
           ${pdf_path ? `
           <p><strong>PDF do briefing:</strong><br>
-          <a href="${process.env.ALLOWED_ORIGIN}/api/arquivo?path=${encodeURIComponent(pdf_path)}">Abrir</a></p>
+          <a href="${baseUrl}/api/arquivo?path=${encodeURIComponent(pdf_path)}">Abrir</a></p>
           ` : ""}
         `,
       }),
