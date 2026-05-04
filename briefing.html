@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing de Atendimento — Camini Carreiras</title>
+<meta name="description" content="Formulário de briefing para consultoria de carreira com Gabriela Camini. Preencha antes do seu atendimento.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Montserrat:wght@300;400;500;600;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --c-deep: #0F3C4F;
+  --c-olive: #4E4C0F;
+  --c-wine: #4F0F1A;
+  --c-rose: #A45663;
+  --c-sky:  #8EBBCE;
+  --c-sand: #D3D1B8;
+  --c-bg:   #F5F2EC;
+  --c-bg-2: #ECE7DC;
+  --c-ink:  #2A1418;
+  --c-muted:#6B5A5E;
+  --c-line: rgba(79, 15, 26, 0.15);
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-script: 'Reenie Beanie', 'Caveat', cursive;
+
+  --max: 820px;
+  --radius: 4px;
+  --shadow-soft: 0 1px 3px rgba(42, 20, 24, 0.06), 0 8px 24px rgba(42, 20, 24, 0.04);
+  --shadow-deep: 0 4px 12px rgba(42, 20, 24, 0.10), 0 24px 60px rgba(42, 20, 24, 0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--c-bg);
+  color: var(--c-ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.display { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; font-optical-sizing: auto; font-variation-settings: "opsz" 144; }
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--c-wine);
+}
+.italic { font-style: italic; font-family: var(--font-display); }
+.handwritten-note {
+  font-family: var(--font-script);
+  font-size: 1.6rem;
+  color: var(--c-rose);
+  margin: -8px 0 12px;
+  transform: rotate(-2deg);
+  display: inline-block;
+  line-height: 1;
+}
+
+/* ============ NAV ============ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 18px 0;
+  background: rgba(245, 242, 236, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-line);
+}
+.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  color: var(--c-wine);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity .2s ease;
+  gap: 8px;
+}
+.logo:hover { opacity: 0.75; }
+.logo-img {
+  height: 58px;
+  width: auto;
+  display: block;
+}
+.logo svg {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+.nav-back {
+  font-size: 0.85rem; font-weight: 500;
+  color: var(--c-muted);
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: color .2s ease;
+}
+.nav-back:hover { color: var(--c-wine); }
+.nav-back svg { width: 16px; height: 16px; }
+
+/* ============ PAGE LAYOUT ============ */
+.page-wrap {
+  min-height: 100vh;
+  padding: 120px 24px 80px;
+}
+.page-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+/* ============ HERO HEADER ============ */
+.briefing-hero {
+  padding: 48px 0 60px;
+  position: relative;
+}
+.briefing-hero::before {
+  content: '';
+  position: absolute; top: -60px; right: -80px;
+  width: 420px; height: 420px;
+  background: radial-gradient(ellipse at center, rgba(142, 187, 206, 0.2), transparent 65%);
+  pointer-events: none;
+}
+.briefing-eyebrow {
+  display: inline-flex; align-items: center; gap: 14px;
+  margin-bottom: 24px;
+}
+.briefing-eyebrow::before {
+  content: ''; width: 36px; height: 1px; background: var(--c-wine);
+}
+.briefing-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  color: var(--c-ink);
+  margin-bottom: 28px;
+}
+.briefing-hero h1 .accent {
+  color: var(--c-wine); font-style: italic; font-weight: 400;
+}
+
+/* ============ WELCOME CARD ============ */
+.welcome-card {
+  background: linear-gradient(145deg, var(--c-deep) 0%, #0a2a37 100%);
+  border-radius: 8px;
+  padding: 44px 48px;
+  color: var(--c-bg);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 48px;
+  box-shadow: var(--shadow-deep);
+}
+.welcome-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(164, 86, 99, 0.35), transparent 55%),
+    radial-gradient(circle at 10% 80%, rgba(142, 187, 206, 0.25), transparent 55%);
+}
+.welcome-card-inner { position: relative; z-index: 2; }
+.welcome-card .eyebrow { color: var(--c-sky); margin-bottom: 16px; }
+.welcome-card h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 500;
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+.welcome-card h2 em { color: var(--c-rose); font-style: italic; }
+.welcome-card p {
+  font-size: 1rem;
+  color: rgba(245, 242, 236, 0.82);
+  line-height: 1.75;
+  max-width: 580px;
+}
+.welcome-card p + p { margin-top: 12px; }
+
+.notice-strip {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-top: 28px;
+  padding: 18px 22px;
+  background: rgba(245, 242, 236, 0.08);
+  border: 1px solid rgba(245, 242, 236, 0.16);
+  border-radius: 6px;
+}
+.notice-strip svg { flex-shrink: 0; margin-top: 2px; opacity: 0.75; }
+.notice-strip p {
+  font-size: 0.85rem;
+  color: rgba(245, 242, 236, 0.75);
+  line-height: 1.6;
+}
+.notice-strip strong { color: var(--c-sky); font-weight: 600; }
+
+.payment-strip {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-top: 14px;
+  padding: 18px 22px;
+  background: rgba(164, 86, 99, 0.15);
+  border: 1px solid rgba(164, 86, 99, 0.3);
+  border-radius: 6px;
+}
+.payment-strip svg { flex-shrink: 0; margin-top: 2px; color: var(--c-rose); }
+.payment-strip p {
+  font-size: 0.85rem;
+  color: rgba(245, 242, 236, 0.78);
+  line-height: 1.6;
+}
+.payment-strip strong { color: #e08896; font-weight: 600; }
+
+/* ============ FORM SECTIONS ============ */
+.form-section {
+  margin-bottom: 36px;
+}
+.section-label {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--c-line);
+}
+.section-num {
+  width: 36px; height: 36px;
+  background: var(--c-wine);
+  color: var(--c-bg);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.section-label-text h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--c-ink);
+  line-height: 1.2;
+}
+.section-label-text p {
+  font-size: 0.82rem;
+  color: var(--c-muted);
+  margin-top: 3px;
+}
+
+/* ============ FORM FIELDS ============ */
+.field-group {
+  margin-bottom: 22px;
+}
+label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--c-ink);
+  margin-bottom: 8px;
+}
+label .req { color: var(--c-wine); margin-left: 3px; }
+label .opt {
+  font-weight: 400;
+  color: var(--c-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  margin-left: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+textarea {
+  width: 100%;
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--c-ink);
+  background: white;
+  border: 1.5px solid rgba(79, 15, 26, 0.2);
+  border-radius: var(--radius);
+  transition: border-color .2s ease, box-shadow .2s ease;
+  outline: none;
+  appearance: none;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="url"]:focus,
+textarea:focus {
+  border-color: var(--c-wine);
+  box-shadow: 0 0 0 3px rgba(79, 15, 26, 0.08);
+}
+input::placeholder, textarea::placeholder { color: rgba(107, 90, 94, 0.55); }
+textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+/* Upload */
+.upload-zone {
+  border: 2px dashed rgba(79, 15, 26, 0.22);
+  border-radius: 6px;
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .25s ease;
+  background: white;
+  position: relative;
+}
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--c-wine);
+  background: rgba(79, 15, 26, 0.03);
+}
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  opacity: 0; cursor: pointer;
+}
+.upload-icon {
+  width: 44px; height: 44px;
+  margin: 0 auto 12px;
+  color: var(--c-rose);
+}
+.upload-zone h4 {
+  font-family: var(--font-display);
+  font-size: 1rem; font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--c-ink);
+}
+.upload-zone p {
+  font-size: 0.8rem;
+  color: var(--c-muted);
+}
+.upload-zone .file-name {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--c-wine);
+  font-weight: 500;
+  display: none;
+}
+.upload-zone.has-file .file-name { display: block; }
+.upload-zone.has-file .upload-icon,
+.upload-zone.has-file h4,
+.upload-zone.has-file > p { opacity: 0.5; }
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* LinkedIn password warning */
+.security-note {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-top: 10px;
+  padding: 12px 16px;
+  background: rgba(211, 209, 184, 0.45);
+  border-radius: 4px;
+  border-left: 3px solid var(--c-sand);
+}
+.security-note svg { flex-shrink: 0; margin-top: 1px; color: var(--c-olive); }
+.security-note p {
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  line-height: 1.55;
+}
+
+/* Password field with toggle */
+.pw-wrap {
+  position: relative;
+}
+.pw-wrap input { padding-right: 48px; }
+.pw-toggle {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--c-muted);
+  background: none; border: none; padding: 4px;
+  display: flex; align-items: center;
+  transition: color .2s;
+}
+.pw-toggle:hover { color: var(--c-wine); }
+
+/* Submit */
+.submit-area {
+  padding-top: 12px;
+  border-top: 1px solid var(--c-line);
+  margin-top: 40px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.submit-note {
+  font-size: 0.82rem;
+  color: var(--c-muted);
+  line-height: 1.6;
+  text-align: center;
+}
+.btn-submit {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%;
+  padding: 18px 32px;
+  font-family: var(--font-body);
+  font-size: 1rem; font-weight: 600;
+  letter-spacing: 0.01em;
+  background: var(--c-wine);
+  color: var(--c-bg);
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  transition: background .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+.btn-submit:hover {
+  background: var(--c-ink);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-deep);
+}
+.btn-submit svg { transition: transform .25s ease; }
+.btn-submit:hover svg { transform: translateX(4px); }
+
+/* Success */
+.success-overlay {
+  display: none;
+  flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 80px 40px;
+}
+.success-overlay.show { display: flex; }
+.success-icon {
+  width: 72px; height: 72px;
+  background: rgba(79, 15, 26, 0.08);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 28px;
+  color: var(--c-wine);
+}
+.success-overlay h2 { font-size: 2rem; margin-bottom: 16px; }
+.success-overlay p { color: var(--c-muted); font-size: 1.05rem; max-width: 460px; line-height: 1.7; }
+
+/* ============ FOOTER ============ */
+.mini-footer {
+  margin-top: 80px;
+  padding: 32px 0;
+  border-top: 1px solid var(--c-line);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--c-muted);
+}
+.mini-footer a { color: var(--c-wine); }
+.mini-footer a:hover { text-decoration: underline; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 640px) {
+  .welcome-card { padding: 32px 24px; }
+  .upload-grid { grid-template-columns: 1fr; }
+  .briefing-hero h1 { font-size: 2rem; }
+  .page-wrap { padding: 100px 20px 60px; }
+  .nav-inner { padding: 0 20px; }
+  .logo-img { height: 42px; }
+  .logo svg { height: 32px; }
+}
+
+/* Correção mobile: remove espaço lateral */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+@media (max-width: 640px) {
+  * { max-width: 100%; }
+  .briefing-hero::before { display: none !important; }
+  .page-wrap { padding: 100px 16px 60px !important; }
+  .nav-inner { padding: 0 16px !important; }
+  .welcome-card { padding: 28px 20px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="Camini Carreiras — Voltar ao site">
+      <svg class="logo-img" aria-hidden="true" width="740" height="247" viewBox="0 0 740 247" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_863_2268)">
+<path d="M714.589 128.532C713.092 132.855 712.538 135.848 712.926 137.511C713.369 139.174 714.256 140.005 715.586 140.005C716.529 140.005 717.499 139.701 718.496 139.091C719.494 138.481 720.741 137.428 722.238 135.931C723.125 135.1 723.845 134.601 724.399 134.435C724.954 134.213 725.508 134.241 726.062 134.518C726.727 134.795 727.06 135.405 727.06 136.347C727.06 137.234 726.7 138.343 725.979 139.673C723.762 143.83 720.547 147.156 716.335 149.65C712.122 152.144 707.244 153.392 701.701 153.392C697.766 153.392 694.828 152.588 692.888 150.98C690.948 149.318 689.923 146.962 689.812 143.913C689.756 140.809 690.505 137.068 692.057 132.689L704.112 98.9327C705.664 94.7201 706.247 91.7823 705.859 90.1195C705.471 88.4012 704.584 87.542 703.198 87.542C702.311 87.542 701.341 87.8469 700.288 88.4566C699.29 89.0109 697.988 90.1195 696.38 91.7823C695.549 92.5029 694.828 92.9741 694.218 93.1958C693.664 93.3621 693.11 93.3343 692.556 93.1126C691.946 92.7801 691.613 92.1981 691.558 91.3666C691.558 90.4798 691.918 89.3712 692.639 88.0409C695.022 83.7174 698.32 80.2531 702.533 77.648C706.801 75.0428 711.54 73.7402 716.75 73.7402C720.298 73.7402 723.041 74.5717 724.981 76.2345C726.977 77.842 728.113 80.2531 728.39 83.468C728.667 86.6829 727.975 90.646 726.312 95.3575L714.589 128.532Z" fill="#4F0F1A"/>
+<path d="M593.49 93.1126C592.825 92.7801 592.492 92.1981 592.492 91.3666C592.492 90.4798 592.825 89.3712 593.49 88.0409C595.929 83.7174 599.338 80.2531 603.717 77.648C608.096 75.0428 612.946 73.7402 618.267 73.7402C621.703 73.7402 624.364 74.4885 626.249 75.9851C628.133 77.4263 629.075 79.588 629.075 82.4703C629.075 84.244 628.688 86.2672 627.911 88.5397C627.191 90.8123 626.249 93.3621 625.085 96.1889C623.976 98.9604 622.757 102.009 621.426 105.335C620.151 108.605 618.904 112.125 617.685 115.894L616.687 113.898C619.791 106.305 623.228 99.9581 626.997 94.8586C630.821 89.7038 634.757 85.5743 638.803 82.4703C642.905 79.3663 646.924 77.1491 650.859 75.8188C654.85 74.4331 658.508 73.7402 661.834 73.7402C666.379 73.7402 669.677 74.738 671.728 76.7334C673.834 78.7288 674.887 81.5557 674.887 85.214C674.887 88.8169 674.028 93.0572 672.31 97.9349L661.917 128.615C660.421 132.938 659.866 135.931 660.254 137.594C660.698 139.202 661.585 140.005 662.915 140.005C663.857 140.005 664.827 139.728 665.825 139.174C666.823 138.564 668.07 137.483 669.566 135.931C670.453 135.1 671.174 134.601 671.728 134.435C672.282 134.213 672.837 134.241 673.391 134.518C674.056 134.851 674.389 135.46 674.389 136.347C674.389 137.234 674.028 138.37 673.308 139.756C671.091 143.858 667.876 147.184 663.663 149.733C659.451 152.228 654.573 153.475 649.03 153.475C645.094 153.475 642.157 152.671 640.217 151.064C638.277 149.401 637.251 147.045 637.14 143.996C637.085 140.892 637.778 137.179 639.219 132.855L649.778 101.843C651.552 96.8541 652.162 93.3344 651.607 91.2835C651.108 89.2326 649.529 88.2072 646.868 88.2072C644.928 88.2072 642.739 88.8723 640.3 90.2026C637.861 91.5329 635.339 93.5283 632.734 96.1889C630.129 98.8495 627.607 102.175 625.168 106.166C622.729 110.157 620.539 114.841 618.599 120.217C617.491 123.377 616.576 126.037 615.856 128.199C615.191 130.361 614.719 132.162 614.442 133.603C614.165 134.989 614.027 136.181 614.027 137.179C614.027 138.675 614.276 139.95 614.775 141.003C615.274 142.056 615.523 143.303 615.523 144.745C615.523 147.35 613.916 149.456 610.701 151.064C607.486 152.671 603.052 153.475 597.398 153.475C593.296 153.475 590.802 152.144 589.915 149.484C589.084 146.823 589.61 142.888 591.495 137.677L605.047 98.9327C606.544 94.6646 607.098 91.6992 606.71 90.0363C606.322 88.3735 605.435 87.542 604.049 87.542C603.218 87.542 602.276 87.8469 601.222 88.4566C600.169 89.0109 598.867 90.1195 597.315 91.7823C596.428 92.5029 595.68 92.9741 595.07 93.1958C594.516 93.3621 593.989 93.3343 593.49 93.1126Z" fill="#4F0F1A"/>
+<path d="M562.917 128.532C561.42 132.855 560.866 135.848 561.254 137.511C561.697 139.174 562.584 140.005 563.915 140.005C564.857 140.005 565.827 139.701 566.825 139.091C567.822 138.481 569.069 137.428 570.566 135.931C571.453 135.1 572.173 134.601 572.728 134.435C573.282 134.213 573.836 134.241 574.391 134.518C575.056 134.795 575.388 135.405 575.388 136.347C575.388 137.234 575.028 138.342 574.307 139.673C572.09 143.83 568.875 147.156 564.663 149.65C560.45 152.144 555.573 153.391 550.03 153.391C546.094 153.391 543.156 152.588 541.216 150.98C539.276 149.317 538.251 146.962 538.14 143.913C538.085 140.809 538.833 137.068 540.385 132.689L552.441 98.9324C553.993 94.7198 554.575 91.782 554.187 90.1192C553.799 88.4009 552.912 87.5417 551.526 87.5417C550.639 87.5417 549.669 87.8466 548.616 88.4563C547.618 89.0106 546.316 90.1192 544.708 91.782C543.877 92.5026 543.156 92.9737 542.547 93.1955C541.992 93.3617 541.438 93.334 540.884 93.1123C540.274 92.7797 539.942 92.1977 539.886 91.3663C539.886 90.4794 540.246 89.3709 540.967 88.0406C543.35 83.7171 546.648 80.2528 550.861 77.6477C555.129 75.0425 559.868 73.7399 565.079 73.7399C568.626 73.7399 571.37 74.5714 573.31 76.2342C575.305 77.8417 576.441 80.2528 576.719 83.4677C576.996 86.6826 576.303 90.6457 574.64 95.3572L562.917 128.532ZM570.317 61.1021C566.326 61.1021 563.277 60.1044 561.171 58.109C559.065 56.0581 558.095 53.5638 558.261 50.6261C558.372 48.1872 559.175 45.8592 560.672 43.642C562.224 41.3694 564.303 39.5126 566.908 38.0714C569.513 36.6303 572.561 35.9097 576.053 35.9097C580.322 35.9097 583.426 36.9351 585.366 38.986C587.306 41.0369 588.192 43.5312 588.026 46.4689C587.915 49.1295 587.084 51.5684 585.532 53.7855C584.035 56.0027 581.984 57.7764 579.379 59.1067C576.774 60.437 573.753 61.1021 570.317 61.1021Z" fill="#4F0F1A"/>
+<path d="M441.129 137.511L453.268 101.843C454.931 96.9095 455.513 93.4175 455.014 91.3666C454.515 89.2603 453.074 88.2072 450.69 88.2072C448.251 88.2072 445.341 89.3989 441.96 91.7823C438.579 94.1104 435.198 97.6578 431.817 102.425C428.491 107.136 425.526 113.067 422.92 120.217C421.812 123.377 420.897 126.037 420.177 128.199C419.511 130.361 419.04 132.162 418.763 133.603C418.486 134.989 418.347 136.181 418.347 137.179C418.347 138.62 418.597 139.895 419.096 141.003C419.595 142.056 419.844 143.303 419.844 144.745C419.844 147.405 418.237 149.539 415.022 151.147C411.807 152.699 407.373 153.475 401.719 153.475C397.617 153.475 395.15 152.144 394.319 149.484C393.488 146.768 394.014 142.721 395.899 137.345L409.451 98.7664C410.892 94.6092 411.419 91.6992 411.031 90.0363C410.643 88.3735 409.756 87.542 408.37 87.542C407.539 87.542 406.597 87.8469 405.543 88.4566C404.49 89.0109 403.188 90.1195 401.636 91.7823C400.749 92.5029 400 92.9741 399.391 93.1958C398.836 93.3621 398.31 93.3343 397.811 93.1126C397.146 92.7801 396.813 92.1981 396.813 91.3666C396.813 90.4798 397.146 89.3712 397.811 88.0409C400.25 83.7174 403.659 80.2531 408.038 77.648C412.417 75.0428 417.267 73.7402 422.588 73.7402C426.024 73.7402 428.685 74.4885 430.57 75.9851C432.454 77.4263 433.396 79.588 433.396 82.4703C433.396 84.244 433.036 86.2672 432.316 88.5397C431.595 90.7569 430.653 93.2512 429.489 96.0226C428.38 98.7387 427.161 101.76 425.83 105.085C424.5 108.356 423.225 111.958 422.006 115.894L421.008 113.898C425.11 103.81 429.794 95.8564 435.059 90.0363C440.325 84.1609 445.646 79.976 451.023 77.4817C456.455 74.9874 461.388 73.7402 465.822 73.7402C470.035 73.7402 473.167 74.5717 475.217 76.2345C477.324 77.8974 478.349 80.3917 478.294 83.7174C478.238 85.3249 477.878 87.1817 477.213 89.288C476.603 91.3389 475.772 93.6669 474.719 96.2721C473.665 98.8218 472.501 101.732 471.227 105.002C470.007 108.217 468.76 111.848 467.485 115.894L466.072 113.815C469.176 106.388 472.585 100.124 476.298 95.0249C480.068 89.87 483.948 85.7406 487.938 82.6366C491.929 79.5326 495.865 77.2877 499.745 75.902C503.68 74.4608 507.339 73.7402 510.72 73.7402C515.043 73.7402 518.203 74.738 520.198 76.7334C522.249 78.7288 523.274 81.5557 523.274 85.214C523.33 88.8169 522.526 93.0572 520.863 97.9349L510.553 128.615C509.057 132.938 508.53 135.931 508.974 137.594C509.417 139.202 510.304 140.005 511.634 140.005C512.577 140.005 513.547 139.728 514.544 139.174C515.542 138.564 516.761 137.483 518.203 135.931C519.145 135.1 519.893 134.601 520.447 134.435C521.057 134.213 521.584 134.241 522.027 134.518C522.748 134.851 523.108 135.46 523.108 136.347C523.108 137.234 522.748 138.37 522.027 139.756C519.81 143.858 516.595 147.184 512.383 149.733C508.17 152.228 503.292 153.475 497.749 153.475C493.814 153.475 490.876 152.671 488.936 151.064C487.052 149.401 486.054 147.045 485.943 143.996C485.832 140.892 486.497 137.179 487.938 132.855L498.331 101.843C500.105 96.9095 500.715 93.4175 500.16 91.3666C499.606 89.2603 498.165 88.2072 495.837 88.2072C493.343 88.2072 490.405 89.3989 487.024 91.7823C483.698 94.1104 480.372 97.6578 477.047 102.425C473.721 107.136 470.755 113.067 468.15 120.217C467.042 123.377 466.155 126.037 465.49 128.199C464.825 130.361 464.326 132.162 463.993 133.603C463.716 135.045 463.577 136.264 463.577 137.262C463.577 138.703 463.827 139.95 464.326 141.003C464.825 142.056 465.074 143.331 465.074 144.828C465.074 147.433 463.467 149.539 460.252 151.147C457.037 152.699 452.63 153.475 447.032 153.475C444.26 153.475 442.237 152.893 440.962 151.729C439.743 150.565 439.161 148.791 439.216 146.408C439.327 144.024 439.965 141.059 441.129 137.511Z" fill="#4F0F1A"/>
+<path d="M369.254 128.365C368.09 132.911 367.674 136.015 368.007 137.677C368.395 139.34 369.226 140.172 370.501 140.172C371.443 140.172 372.386 139.867 373.328 139.257C374.326 138.647 375.573 137.594 377.069 136.098C377.956 135.266 378.677 134.767 379.231 134.601C379.841 134.379 380.395 134.407 380.894 134.684C381.559 134.961 381.892 135.571 381.892 136.513C381.892 137.4 381.559 138.537 380.894 139.922C378.677 143.969 375.49 147.239 371.332 149.733C367.231 152.228 362.824 153.475 358.113 153.475C354.399 153.475 351.683 152.588 349.965 150.814C348.302 148.985 347.47 146.408 347.47 143.082C347.47 141.807 347.553 140.393 347.72 138.841C347.941 137.289 348.274 135.488 348.717 133.437C349.161 131.386 349.743 129.003 350.464 126.287C351.24 123.515 352.182 120.328 353.29 116.725L354.87 119.968C352.32 126.952 349.133 132.966 345.309 138.01C341.484 142.999 337.216 146.823 332.505 149.484C327.849 152.144 322.943 153.475 317.788 153.475C311.469 153.475 306.619 151.396 303.238 147.239C299.857 143.026 298.637 136.569 299.58 127.867C300.079 122.379 301.437 117.03 303.654 111.82C305.871 106.554 308.809 101.621 312.467 97.0204C316.125 92.4198 320.393 88.4012 325.271 84.9646C330.204 81.4726 335.609 78.7288 341.484 76.7334C347.359 74.738 353.595 73.7402 360.191 73.7402C365.623 73.7402 370.168 74.1282 373.827 74.9042C377.541 75.6802 380.312 76.7057 382.141 77.9805C384.026 79.2 384.885 80.5303 384.719 81.9714C384.608 83.1909 384.164 84.1054 383.388 84.7152C382.668 85.3249 381.892 85.9346 381.06 86.5443C380.229 87.154 379.647 88.124 379.314 89.4543L369.254 128.365ZM322.112 127.867C321.557 133.188 321.89 136.929 323.109 139.091C324.384 141.197 326.103 142.25 328.264 142.25C330.371 142.25 332.56 141.419 334.833 139.756C337.161 138.038 339.489 135.627 341.817 132.523C344.2 129.363 346.473 125.649 348.634 121.381C350.796 117.113 352.736 112.374 354.454 107.164C356.228 101.954 357.669 96.4661 358.778 90.7015C359.388 87.3757 359.36 84.9092 358.695 83.3017C358.085 81.6943 356.81 80.8906 354.87 80.8906C351.877 80.8906 348.912 81.8051 345.974 83.6343C343.036 85.4634 340.237 87.9577 337.576 91.1172C334.916 94.2212 332.477 97.7964 330.26 101.843C328.098 105.889 326.297 110.157 324.855 114.647C323.47 119.081 322.555 123.488 322.112 127.867Z" fill="#4F0F1A"/>
+<path d="M287.602 115.894C288.433 116.282 288.96 117.03 289.182 118.139C289.403 119.192 288.932 120.688 287.768 122.629C284.664 129.335 280.673 134.989 275.796 139.59C270.973 144.19 265.458 147.682 259.25 150.066C253.097 152.394 246.418 153.558 239.213 153.558C230.011 153.558 222.057 151.396 215.35 147.073C208.644 142.694 203.849 136.319 200.967 127.95C198.084 119.524 197.696 109.242 199.803 97.1035C201.41 88.0686 204.237 79.6711 208.283 71.9111C212.33 64.151 217.318 57.361 223.249 51.541C229.235 45.7209 235.859 41.1758 243.12 37.9055C250.437 34.6352 258.086 33 266.068 33C269.671 33 272.719 33.4157 275.214 34.2472C277.763 35.0232 279.87 35.9377 281.533 36.9909C283.195 38.044 284.553 38.9586 285.607 39.7346C286.66 40.5106 287.519 40.8986 288.184 40.8986C288.96 40.8986 289.791 40.5106 290.678 39.7346C291.621 38.9586 292.563 38.0717 293.505 37.074C294.447 36.0763 295.362 35.1894 296.249 34.4134C297.191 33.6374 298.05 33.2494 298.826 33.2494C299.935 33.2494 300.794 33.582 301.404 34.2472C302.069 34.8569 302.429 35.7714 302.485 36.9909L302.235 67.5876C302.235 68.8625 301.875 69.8048 301.154 70.4145C300.434 71.0242 299.547 71.3291 298.494 71.3291C296.498 71.3845 295.085 70.2482 294.253 67.9202L292.424 61.7676C290.263 54.1738 287.297 48.7695 283.528 45.5546C279.759 42.3398 275.047 40.7323 269.394 40.7323C264.35 40.7323 259.555 42.0626 255.01 44.7232C250.52 47.3838 246.418 51.1252 242.705 55.9476C238.991 60.7145 235.804 66.3682 233.143 72.9088C230.483 79.394 228.459 86.5166 227.074 94.2766C225.023 105.695 224.718 114.896 226.159 121.88C227.6 128.864 230.316 133.964 234.307 137.179C238.353 140.338 243.176 141.918 248.774 141.918C252.765 141.918 256.673 141.169 260.497 139.673C264.322 138.121 268.008 135.654 271.555 132.273C275.158 128.837 278.456 124.402 281.449 118.97C282.669 117.584 283.75 116.642 284.692 116.143C285.69 115.589 286.66 115.506 287.602 115.894Z" fill="#4F0F1A"/>
+<path d="M687.061 246.564C680.41 246.564 674.091 245.511 668.105 243.405C662.118 241.299 657.518 238.638 654.303 235.423L657.629 231.1C660.954 234.315 665.278 236.92 670.599 238.915C675.92 240.8 681.518 241.742 687.394 241.742C696.928 241.742 704.355 239.968 709.676 236.421C714.998 232.873 717.658 227.996 717.658 221.788C717.658 217.797 716.439 214.748 714 212.642C711.672 210.536 708.568 208.984 704.688 207.986C700.808 206.877 696.706 205.935 692.383 205.159C688.059 204.272 683.957 203.164 680.077 201.833C676.197 200.503 673.038 198.508 670.599 195.847C668.271 193.186 667.107 189.417 667.107 184.54C667.107 179.44 668.548 175.006 671.43 171.237C674.313 167.357 678.359 164.363 683.569 162.257C688.891 160.151 695.043 159.098 702.027 159.098C707.348 159.098 712.559 159.874 717.658 161.426C722.758 162.978 726.804 165.139 729.797 167.911L726.804 172.068C723.589 169.407 719.764 167.412 715.33 166.082C710.896 164.751 706.295 164.086 701.528 164.086C692.66 164.086 685.62 165.915 680.41 169.574C675.2 173.232 672.594 178.11 672.594 184.207C672.594 188.198 673.758 191.302 676.086 193.519C678.525 195.625 681.685 197.233 685.565 198.341C689.445 199.339 693.547 200.281 697.87 201.168C702.193 201.944 706.295 202.997 710.175 204.328C714.055 205.658 717.159 207.653 719.487 210.314C721.926 212.864 723.146 216.522 723.146 221.289C723.146 226.61 721.649 231.155 718.656 234.924C715.774 238.694 711.616 241.576 706.184 243.571C700.752 245.567 694.378 246.564 687.061 246.564Z" fill="#4F0F1A"/>
+<path d="M588.145 246.564C580.718 246.564 574.177 245.179 568.523 242.407C562.981 239.525 558.657 235.423 555.553 230.102C552.56 224.781 551.063 218.462 551.063 211.145C551.063 203.718 552.227 196.845 554.555 190.526C556.994 184.207 560.375 178.719 564.699 174.063C569.133 169.297 574.288 165.638 580.164 163.089C586.15 160.428 592.746 159.098 599.952 159.098C607.49 159.098 613.92 160.483 619.241 163.255C624.673 166.026 628.775 170.017 631.546 175.227C634.428 180.327 635.87 186.48 635.87 193.685C635.98 203.773 633.985 212.808 629.883 220.79C625.892 228.772 620.294 235.091 613.088 239.747C605.993 244.292 597.679 246.564 588.145 246.564ZM589.143 241.576C597.457 241.576 604.829 239.58 611.259 235.59C617.689 231.488 622.733 225.945 626.391 218.961C630.16 211.866 632.045 203.829 632.045 194.849C632.045 185.094 629.163 177.555 623.398 172.234C617.744 166.913 609.818 164.253 599.619 164.253C591.416 164.253 584.044 166.303 577.503 170.405C571.073 174.396 565.974 179.939 562.205 187.034C558.435 194.018 556.551 202 556.551 210.979C556.551 220.624 559.378 228.162 565.031 233.594C570.796 238.915 578.833 241.576 589.143 241.576ZM622.733 246.066L628.553 217.298L633.043 204.161L633.874 190.027L639.86 159.763H645.348L628.22 246.066H622.733Z" fill="#4F0F1A"/>
+<path d="M490.864 246.066L507.991 159.763H513.479L508.158 186.202L507.16 184.373C510.818 176.281 515.862 170.073 522.292 165.749C528.833 161.315 537.092 159.098 547.069 159.098L546.071 164.585C545.739 164.585 545.406 164.585 545.073 164.585C544.741 164.585 544.408 164.585 544.076 164.585C533.877 164.585 525.452 167.689 518.8 173.897C512.259 179.994 507.77 189.14 505.331 201.334L496.351 246.066H490.864Z" fill="#4F0F1A"/>
+<path d="M448.48 246.066L465.608 159.763H471.095L453.968 246.066H448.48Z" fill="#4F0F1A"/>
+<path d="M386.659 246.564C378.678 246.564 371.749 245.179 365.874 242.407C360.109 239.525 355.675 235.423 352.571 230.102C349.578 224.781 348.081 218.351 348.081 210.813C348.081 200.946 350.076 192.133 354.067 184.373C358.169 176.613 363.712 170.461 370.696 165.915C377.791 161.37 385.773 159.098 394.641 159.098C402.069 159.098 408.443 160.539 413.764 163.421C419.085 166.193 423.187 170.239 426.069 175.56C428.952 180.881 430.393 187.256 430.393 194.683C430.393 196.235 430.282 197.787 430.06 199.339C429.949 200.891 429.783 202.332 429.561 203.662H352.238L353.236 199.006H427.067L424.739 201.334C426.069 193.242 425.571 186.48 423.243 181.047C420.914 175.505 417.256 171.292 412.268 168.41C407.279 165.527 401.348 164.086 394.475 164.086C386.604 164.086 379.565 166.137 373.357 170.239C367.148 174.23 362.271 179.717 358.723 186.701C355.176 193.685 353.402 201.667 353.402 210.647C353.402 220.624 356.284 228.273 362.049 233.594C367.814 238.915 376.183 241.576 387.158 241.576C393.477 241.576 399.297 240.523 404.618 238.416C409.94 236.199 414.318 233.151 417.755 229.271L420.416 233.095C416.868 237.197 412.101 240.467 406.115 242.906C400.129 245.345 393.643 246.564 386.659 246.564Z" fill="#4F0F1A"/>
+<path d="M287.715 246.066L304.842 159.763H310.33L305.009 186.202L304.011 184.373C307.669 176.281 312.713 170.073 319.143 165.749C325.684 161.315 333.943 159.098 343.92 159.098L342.922 164.585C342.59 164.585 342.257 164.585 341.924 164.585C341.592 164.585 341.259 164.585 340.927 164.585C330.728 164.585 322.303 167.689 315.651 173.897C309.111 179.994 304.621 189.14 302.182 201.334L293.202 246.066H287.715Z" fill="#4F0F1A"/>
+<path d="M224.708 246.066L241.836 159.763H247.323L242.002 186.202L241.004 184.373C244.662 176.281 249.706 170.073 256.136 165.749C262.677 161.315 270.936 159.098 280.913 159.098L279.915 164.585C279.583 164.585 279.25 164.585 278.917 164.585C278.585 164.585 278.252 164.585 277.92 164.585C267.721 164.585 259.296 167.689 252.644 173.897C246.104 179.994 241.614 189.14 239.175 201.334L230.195 246.066H224.708Z" fill="#4F0F1A"/>
+<path d="M147.908 246.564C140.481 246.564 133.94 245.179 128.286 242.407C122.743 239.525 118.42 235.423 115.316 230.102C112.323 224.781 110.826 218.462 110.826 211.145C110.826 203.718 111.99 196.845 114.318 190.526C116.757 184.207 120.138 178.719 124.462 174.063C128.896 169.297 134.051 165.638 139.926 163.089C145.913 160.428 152.509 159.098 159.714 159.098C167.253 159.098 173.682 160.483 179.004 163.255C184.436 166.026 188.537 170.017 191.309 175.227C194.191 180.327 195.632 186.48 195.632 193.685C195.743 203.773 193.748 212.808 189.646 220.79C185.655 228.772 180.057 235.091 172.851 239.747C165.756 244.292 157.442 246.564 147.908 246.564ZM148.906 241.576C157.22 241.576 164.592 239.58 171.022 235.59C177.452 231.488 182.496 225.945 186.154 218.961C189.923 211.866 191.808 203.829 191.808 194.849C191.808 185.094 188.925 177.555 183.161 172.234C177.507 166.913 169.581 164.253 159.382 164.253C151.178 164.253 143.806 166.303 137.266 170.405C130.836 174.396 125.736 179.939 121.967 187.034C118.198 194.018 116.314 202 116.314 210.979C116.314 220.624 119.14 228.162 124.794 233.594C130.559 238.915 138.596 241.576 148.906 241.576ZM182.496 246.066L188.316 217.298L192.805 204.161L193.637 190.027L199.623 159.763H205.111L187.983 246.066H182.496Z" fill="#4F0F1A"/>
+<path d="M52.8792 246.731C41.5717 246.731 31.9825 244.736 24.1116 240.745C16.2407 236.754 10.2543 231.211 6.15261 224.116C2.05087 216.91 0 208.651 0 199.339C0 189.916 1.60744 180.992 4.82231 172.567C8.03719 164.142 12.6378 156.659 18.6241 150.118C24.7213 143.578 32.0933 138.423 40.7402 134.654C49.498 130.885 59.3089 129 70.173 129C79.1524 129 87.0233 130.33 93.7857 132.991C100.659 135.651 106.035 139.421 109.915 144.298L105.925 147.79C102.045 143.245 97.1114 139.864 91.1251 137.647C85.1388 135.319 78.0439 134.155 69.8404 134.155C59.974 134.155 51.05 135.873 43.0682 139.31C35.1973 142.746 28.4904 147.458 22.9476 153.444C17.4047 159.43 13.1366 166.359 10.1435 174.23C7.15033 182.101 5.65375 190.415 5.65375 199.173C5.65375 207.487 7.42747 214.859 10.9749 221.289C14.6332 227.608 19.9544 232.597 26.9384 236.255C34.0333 239.802 42.8465 241.576 53.378 241.576C61.6923 241.576 69.1752 240.357 75.8267 237.918C82.4782 235.368 88.2428 231.821 93.1205 227.275L96.4463 231.433C91.5685 236.089 85.305 239.802 77.6559 242.574C70.0067 245.345 61.7478 246.731 52.8792 246.731Z" fill="#4F0F1A"/>
+<path d="M717.865 0C729.941 0.000130984 739.73 9.71881 739.73 21.707C739.73 42.5062 717.923 65.9384 717.865 66C717.865 66 696 41.947 696 21.707C696 9.71873 705.789 0 717.865 0ZM717.865 10.5273C711.157 10.5273 705.718 16.0564 705.718 22.877C705.718 29.6975 711.157 35.2266 717.865 35.2266C724.574 35.2264 730.013 29.6974 730.013 22.877C730.013 16.0565 724.574 10.5275 717.865 10.5273Z" fill="#4F0F1A"/>
+</g>
+<defs>
+<clipPath id="clip0_863_2268">
+<rect width="740" height="247" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Voltar ao site
+    </a>
+  </div>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main class="page-wrap">
+  <div class="page-inner">
+
+    <!-- Header -->
+    <div class="briefing-hero">
+      <div class="briefing-eyebrow eyebrow">Camini Carreiras</div>
+      <p class="handwritten-note">— Preencha com atenção</p>
+      <h1 class="display">
+        Briefing de <span class="accent">atendimento.</span>
+      </h1>
+    </div>
+
+    <!-- Welcome Card -->
+    <div class="welcome-card" id="welcomeCard">
+      <div class="welcome-card-inner">
+        <div class="eyebrow">Bem-vindo(a)</div>
+        <h2>Obrigada por escolher a <em>Camini Carreiras.</em></h2>
+        <p>Este briefing foi desenvolvido para que eu possa conhecer melhor sua trajetória profissional, seus objetivos de carreira e suas experiências, permitindo a construção de um material estratégico, personalizado e alinhado ao mercado.</p>
+        <p>Quanto mais detalhadas forem suas respostas, mais assertivo será o direcionamento do seu currículo, LinkedIn e preparação profissional.</p>
+
+        <div class="notice-strip">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <p><strong>Importante:</strong> Todas as informações compartilhadas serão tratadas com confidencialidade e utilizadas exclusivamente para a prestação do serviço contratado.</p>
+        </div>
+
+        <div class="payment-strip">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <p>Após o preenchimento completo e a confirmação do pagamento da entrada, seu atendimento será iniciado.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div id="briefingForm">
+
+      <!-- Seção 1: Contato -->
+      <div class="form-section">
+        <div class="section-label">
+          <div class="section-num">1</div>
+          <div class="section-label-text">
+            <h3>Contato</h3>
+            <p>Informe o e-mail para receber o retorno da consultora</p>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="nome">Nome completo <span class="req">*</span></label>
+          <input type="text" id="nome" name="nome" placeholder="Como prefere ser chamada?" required>
+        </div>
+
+        <div class="field-group">
+          <label for="email">E-mail <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="seu@email.com" required autocomplete="email">
+        </div>
+
+        <div class="field-group">
+          <label for="telefone">Telefone / WhatsApp <span class="req">*</span></label>
+          <input type="text" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+          <p class="field-help" id="telefoneHelp" style="color: var(--c-muted); font-size: 12px; margin-top: 4px;"></p>
+        </div>
+      </div>
+
+      <!-- Seção 2: Upload -->
+      <div class="form-section">
+        <div class="section-label">
+          <div class="section-num">2</div>
+          <div class="section-label-text">
+            <h3>Documentos</h3>
+            <p>Envie seu currículo e, se tiver, sua carta de apresentação</p>
+          </div>
+        </div>
+
+        <div class="upload-grid">
+          <div class="field-group">
+            <label>Currículo <span class="req">*</span></label>
+            <div class="upload-zone" id="curriculoZone">
+              <input type="file" id="curriculo" name="curriculo" accept=".pdf,.doc,.docx" required>
+              <div class="upload-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+              <h4>Currículo</h4>
+              <p>PDF, DOC ou DOCX</p>
+              <p class="file-name" id="curriculoName"></p>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Carta de apresentação <span class="opt">(opcional)</span></label>
+            <div class="upload-zone" id="cartaZone">
+              <input type="file" id="carta" name="carta" accept=".pdf,.doc,.docx">
+              <div class="upload-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <h4>Carta de apresentação</h4>
+              <p>PDF, DOC ou DOCX</p>
+              <p class="file-name" id="cartaName"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 3: Perfil LinkedIn -->
+      <div class="form-section">
+        <div class="section-label">
+          <div class="section-num">3</div>
+          <div class="section-label-text">
+            <h3>Perfil profissional</h3>
+            <p>LinkedIn e informações para análise do seu perfil online</p>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="linkedin">Link do LinkedIn <span class="req">*</span></label>
+          <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/seuperfil" required>
+        </div>
+
+        <div class="field-group">
+          <label for="linkedin-user">Usuário do LinkedIn <span class="req">*</span></label>
+          <input type="text" id="linkedin-user" name="linkedin-user" placeholder="seuemail@exemplo.com ou usuário" required>
+        </div>
+
+        <div class="field-group">
+          <label>Acesso ao LinkedIn</label>
+          <div class="security-note">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p>Por segurança, este formulário não solicita senha do LinkedIn. Caso seja necessário algum ajuste direto no perfil, a consultora combinará com você uma forma segura de acesso durante o atendimento.</p>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="objetivo">Objetivo profissional <span class="opt">(opcional)</span></label>
+          <textarea id="objetivo" name="objetivo" placeholder="Descreva brevemente o que você busca com a consultoria: mudança de área, recolocação, crescimento na carreira atual..."></textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-area">
+        <p class="submit-note">Ao enviar, você confirma que as informações fornecidas são verdadeiras e concorda com o uso dos seus dados exclusivamente para fins de consultoria.</p>
+        <button type="button" class="btn-submit" id="submitBtn">
+          Enviar briefing
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /#briefingForm -->
+
+    <!-- Success -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 class="display">Recebemos seu <span style="color:var(--c-wine);font-style:italic;">briefing!</span></h2>
+      <p>Obrigada por preencher. A Gabriela irá analisar todas as informações e entrará em contato em breve para dar início ao seu atendimento.</p>
+      <p style="margin-top:14px;">Fique de olho no e-mail informado.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="mini-footer">
+      <p>© <span id="year"></span> Camini Carreiras · Gabriela Camini &nbsp;·&nbsp; <a href="index.html">Voltar ao site</a></p>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// CONFIGURAÇÃO
+// Depois que publicar o backend na Vercel, cole a URL aqui.
+// Exemplo: const API_BASE_URL = "https://camini-briefing.vercel.app";
+const API_BASE_URL = "https://camini-carreiras.vercel.app";
+
+// Year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Upload zones
+function setupUpload(inputId, zoneId, nameId) {
+  const input = document.getElementById(inputId);
+  const zone = document.getElementById(zoneId);
+  const nameEl = document.getElementById(nameId);
+
+  input.addEventListener('change', () => {
+    if (input.files[0]) {
+      nameEl.textContent = input.files[0].name;
+      zone.classList.add('has-file');
+    } else {
+      nameEl.textContent = '';
+      zone.classList.remove('has-file');
+    }
+  });
+
+  zone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    zone.classList.add('drag-over');
+  });
+
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+
+    if (e.dataTransfer.files[0]) {
+      input.files = e.dataTransfer.files;
+      nameEl.textContent = e.dataTransfer.files[0].name;
+      zone.classList.add('has-file');
+    }
+  });
+}
+
+setupUpload('curriculo', 'curriculoZone', 'curriculoName');
+setupUpload('carta', 'cartaZone', 'cartaName');
+
+// Validação de email
+function validarEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+// Validação de telefone
+function validarTelefone(telefone) {
+  // Remove caracteres não numéricos
+  const apenasNumeros = telefone.replace(/\D/g, '');
+  // Aceita números de telefone com 10 a 15 dígitos
+  return apenasNumeros.length >= 10 && apenasNumeros.length <= 15;
+}
+
+// Feedback visual para telefone
+document.getElementById('telefone')?.addEventListener('blur', () => {
+  const telefone = document.getElementById('telefone').value.trim();
+  const helper = document.getElementById('telefoneHelp');
+  
+  if (telefone && !validarTelefone(telefone)) {
+    helper.textContent = '❌ Formato inválido. Use: (00) 00000-0000';
+    helper.style.color = '#c73827';
+  } else if (telefone) {
+    helper.textContent = '✓ Formato válido';
+    helper.style.color = '#2d5a3d';
+  } else {
+    helper.textContent = '';
+  }
+});
+
+// Submit real: envia para o backend, salva no banco, gera PDF e manda e-mail
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('submitBtn');
+
+  const nome = document.getElementById('nome').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const telefone = document.getElementById('telefone')?.value.trim() || '';
+  const linkedin = document.getElementById('linkedin').value.trim();
+  const linkedinUser = document.getElementById('linkedin-user')?.value.trim() || '';
+  const objetivo = document.getElementById('objetivo')?.value.trim() || '';
+  const curriculo = document.getElementById('curriculo')?.files[0];
+  const carta = document.getElementById('carta')?.files[0];
+
+  // Validações
+  if (!nome || !email || !telefone || !linkedin || !curriculo) {
+    alert('Por favor, preencha todos os campos obrigatórios antes de enviar.');
+    return;
+  }
+
+  // Validar email
+  if (!validarEmail(email)) {
+    alert('Por favor, digite um email válido (ex: seu@email.com)');
+    document.getElementById('email').focus();
+    return;
+  }
+
+  // Validar telefone
+  if (!validarTelefone(telefone)) {
+    alert('Por favor, digite um telefone válido com pelo menos 10 dígitos.');
+    document.getElementById('telefone').focus();
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('nome', nome);
+  formData.append('email', email);
+  formData.append('telefone', telefone);
+  formData.append('linkedin', linkedin);
+  formData.append('linkedinUser', linkedinUser);
+  formData.append('objetivo', objetivo);
+  formData.append('curriculo', curriculo);
+
+  if (carta) {
+    formData.append('carta', carta);
+  }
+
+  try {
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const response = await fetch('/api/enviar', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      console.log(result);
+      alert(`Erro: ${result.error || 'Erro ao enviar briefing.'}`);
+      btn.disabled = false;
+      btn.textContent = 'Enviar briefing';
+      return;
+    }
+
+    // Ocultar welcome card e form
+    document.getElementById('welcomeCard').style.display = 'none';
+    document.getElementById('briefingForm').style.display = 'none';
+    document.getElementById('successOverlay').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (error) {
+    console.log(error);
+    alert('Erro ao enviar briefing.');
+    btn.disabled = false;
+    btn.textContent = 'Enviar briefing';
+  }
+});
+</script>
+</body>
+</html>
