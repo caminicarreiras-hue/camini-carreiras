@@ -919,6 +919,7 @@ input[type="file"] {
       <a href="#blog">Conteúdos</a>
       <a href="#contato">Contato</a>
       <a href="briefing.html">Briefing</a>
+      <a href="pcd.html">Banco PCD</a>
       <a href="#contato" class="nav-cta">Atendimento</a>
     </div>
     <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
@@ -1215,6 +1216,7 @@ input[type="file"] {
     <button class="admin-tab" data-tab="site">Textos do site</button>
     <button class="admin-tab" data-tab="foto">Foto da consultora</button>
     <button class="admin-tab" data-tab="briefings">Briefings recebidos</button>
+    <button class="admin-tab" data-tab="talentos-pcd">Talentos PCD</button>
     <button class="admin-tab" data-tab="settings">Configurações</button>
   </div>
   <div class="admin-content">
@@ -1332,6 +1334,24 @@ input[type="file"] {
         <div class="alert error" id="briefingsError">Não foi possível carregar os briefings.</div>
         <div class="admin-list" id="adminBriefingsList">
           <div class="admin-empty">Carregando briefings...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB TALENTOS PCD -->
+    <div class="admin-section" data-section="talentos-pcd">
+      <div class="admin-section-head">
+        <h2 class="display">Banco de Talentos PCD</h2>
+        <button class="btn-add" id="refreshPcd">Atualizar</button>
+      </div>
+      <div class="settings-card">
+        <h3>Candidatos cadastrados</h3>
+        <p style="color: var(--c-muted); font-size: 0.9rem; margin-bottom: 16px;">
+          Perfis enviados pelo formulário de Banco de Talentos PCD. Os currículos e cartas de apresentação ficam disponíveis para download.
+        </p>
+        <div class="alert error" id="pcdError">Não foi possível carregar os candidatos.</div>
+        <div class="admin-list" id="adminPcdList">
+          <div class="admin-empty">Carregando candidatos...</div>
         </div>
       </div>
     </div>
@@ -1740,6 +1760,7 @@ document.querySelectorAll('.admin-tab').forEach(t => {
     t.classList.add('active');
     document.querySelector(`.admin-section[data-section="${t.dataset.tab}"]`).classList.add('active');
     if (t.dataset.tab === 'briefings') loadAdminBriefings();
+    if (t.dataset.tab === 'talentos-pcd') loadAdminPcd();
   });
 });
 
@@ -1891,6 +1912,135 @@ async function deleteBriefing(id) {
 }
 window.deleteBriefing = deleteBriefing;
 window.copyBriefingToClipboard = copyBriefingToClipboard;
+
+// ---------- TALENTOS PCD ADMIN ----------
+async function loadAdminPcd() {
+  const list     = document.getElementById('adminPcdList');
+  const errorBox = document.getElementById('pcdError');
+  if (!list) return;
+
+  if (errorBox) errorBox.classList.remove('show');
+  list.innerHTML = '<div class="admin-empty">Carregando candidatos...</div>';
+
+  try {
+    const response = await fetch('/api/pcd?ts=' + Date.now(), { headers: getBriefingHeaders(), cache: 'no-store' });
+    const result   = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result?.error?.message || result?.error || 'Erro ao buscar candidatos');
+    }
+
+    const talentos = Array.isArray(result.talentos) ? result.talentos : [];
+    if (!talentos.length) {
+      list.innerHTML = '<div class="admin-empty">Nenhum candidato cadastrado ainda.</div>';
+      return;
+    }
+
+    list.innerHTML = talentos.map(t => {
+      const created    = t.created_at ? new Date(t.created_at).toLocaleString('pt-BR') : '';
+      const curriculo  = t.curriculo_path || '';
+      const carta      = t.carta_path || '';
+
+      return `
+        <div class="briefing-admin-card" data-pcd-id="${escapeHtml(t.id || '')}">
+          <h4>${escapeHtml(t.nome || 'Sem nome')}</h4>
+          <div class="briefing-admin-meta">
+            <span><strong>E-mail:</strong> ${escapeHtml(t.email || '-')}</span>
+            <span><strong>Telefone:</strong> ${escapeHtml(t.telefone || '-')}</span>
+            <span><strong>Cadastrado em:</strong> ${escapeHtml(created || '-')}</span>
+          </div>
+          <div class="briefing-admin-meta">
+            <span><strong>Deficiência:</strong> ${escapeHtml(t.deficiencia || '-')}</span>
+            <span><strong>Área:</strong> ${escapeHtml(t.area || '-')}</span>
+            <span><strong>Cidade:</strong> ${escapeHtml(t.cidade || '-')}</span>
+          </div>
+          ${t.resumo ? `<div class="briefing-admin-text"><strong>Resumo:</strong><br>${escapeHtml(t.resumo)}</div>` : ''}
+          <div class="briefing-admin-actions">
+            ${curriculo ? `<a href="/api/arquivo?path=${encodeURIComponent(curriculo)}" target="_blank" rel="noopener">Abrir currículo</a>` : ''}
+            ${carta     ? `<a href="/api/arquivo?path=${encodeURIComponent(carta)}"     target="_blank" rel="noopener">Abrir carta</a>`     : ''}
+            <button type="button" onclick="copyPcdToClipboard('${escapeHtml(t.id || '')}')">Copiar resumo</button>
+            <button type="button" class="btn-briefing-delete" onclick="deletePcd('${escapeHtml(t.id || '')}')">Deletar</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+  } catch (error) {
+    if (errorBox) {
+      errorBox.textContent = 'Não foi possível carregar os candidatos. ' + error.message;
+      errorBox.classList.add('show');
+    }
+    list.innerHTML = '<div class="admin-empty">Erro ao carregar candidatos.</div>';
+  }
+}
+
+async function copyPcdToClipboard(id) {
+  try {
+    const response = await fetch('/api/pcd?ts=' + Date.now(), { headers: getBriefingHeaders(), cache: 'no-store' });
+    const result   = await response.json();
+    const talentos = Array.isArray(result.talentos) ? result.talentos : [];
+    const t        = talentos.find(item => String(item.id) === String(id));
+    if (!t) return alert('Candidato não encontrado.');
+
+    const resumo = [
+      `Nome: ${t.nome || ''}`,
+      `E-mail: ${t.email || ''}`,
+      `Telefone: ${t.telefone || ''}`,
+      `Deficiência: ${t.deficiencia || ''}`,
+      `Área: ${t.area || ''}`,
+      `Cidade: ${t.cidade || ''}`,
+      `Resumo: ${t.resumo || ''}`,
+      `Cadastrado em: ${t.created_at ? new Date(t.created_at).toLocaleString('pt-BR') : ''}`,
+    ].join('\n');
+
+    await navigator.clipboard.writeText(resumo);
+    alert('Resumo copiado.');
+  } catch (error) {
+    alert('Não foi possível copiar o resumo.');
+  }
+}
+
+async function deletePcd(id) {
+  if (!id) return alert('Candidato não encontrado.');
+
+  const ok = confirm('Tem certeza que deseja deletar este candidato? Esta ação apaga também o currículo e a carta salvos.');
+  if (!ok) return;
+
+  const card = document.querySelector(`[data-pcd-id="${CSS.escape(String(id))}"]`);
+  const btn  = card ? card.querySelector('.btn-briefing-delete') : null;
+  const originalText = btn ? btn.textContent : '';
+
+  try {
+    if (btn) { btn.disabled = true; btn.textContent = 'Deletando...'; }
+
+    const response = await fetch(`/api/pcd?id=${encodeURIComponent(id)}&ts=${Date.now()}`, {
+      method: 'DELETE',
+      headers: getBriefingHeaders(),
+      cache: 'no-store'
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result?.error?.message || result?.error || 'Erro ao deletar candidato');
+    }
+
+    if (card) card.remove();
+
+    const list = document.getElementById('adminPcdList');
+    if (list && !list.querySelector('.briefing-admin-card')) {
+      list.innerHTML = '<div class="admin-empty">Nenhum candidato cadastrado ainda.</div>';
+    }
+
+    alert('Candidato deletado com sucesso.');
+    await loadAdminPcd();
+  } catch (error) {
+    if (btn) { btn.disabled = false; btn.textContent = originalText || 'Deletar'; }
+    alert('Não foi possível deletar o candidato. ' + error.message);
+  }
+}
+window.deletePcd = deletePcd;
+window.copyPcdToClipboard = copyPcdToClipboard;
 
 // ---------- VAGAS ADMIN ----------
 function renderAdminVagas() {
@@ -2391,6 +2541,11 @@ document.getElementById('importInput').addEventListener('change', (e) => {
 const refreshBriefingsBtn = document.getElementById('refreshBriefings');
 if (refreshBriefingsBtn) {
   refreshBriefingsBtn.addEventListener('click', loadAdminBriefings);
+}
+
+const refreshPcdBtn = document.getElementById('refreshPcd');
+if (refreshPcdBtn) {
+  refreshPcdBtn.addEventListener('click', loadAdminPcd);
 }
 
 </script>
